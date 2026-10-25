@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuthGuard | User Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css"><script src="/static/app.js" defer></script>
+</head><body data-page="dashboard">
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="/">AuthGuard</a>
+    <nav aria-label="Main navigation"><a href="/">Home</a><a href="/dashboard" aria-current="page">User Dashboard</a><a href="/admin">Admin Dashboard</a></nav>
+  </div></header>
+  <main class="container narrow">
+    <section class="intro"><span class="eyebrow">Authenticated only</span><h1>User Dashboard</h1>
+      <p>The backend checks for an active server-side session before serving this page.</p>
+    </section>
+    <section class="card"><h2 id="welcome">Loading your account...</h2>
+      <p id="user-detail" class="muted"></p>
+      <div class="button-row"><button id="check-admin" type="button" class="secondary">Try Admin API</button>
+        <button id="logout" type="button">Log out</button></div>
+      <p class="hint">As a standard User, the Admin API should return 403 Forbidden. Check the Network tab.</p>
+      <p id="dashboard-result" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</body></html>
+

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuthGuard | Home</title>
+  <link rel="stylesheet" href="/static/styles.css"><script src="/static/app.js" defer></script>
+</head>
+<body data-page="home">
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="/">AuthGuard</a>
+    <nav aria-label="Main navigation"><a href="/">Home</a><a href="/dashboard">User Dashboard</a><a href="/admin">Admin Dashboard</a></nav>
+  </div></header>
+  <main class="container">
+    <section class="intro"><span class="eyebrow">Authentication + RBAC demo</span>
+      <h1>Simple access. Clear boundaries.</h1>
+      <p>A small FastAPI application showing registration, login, and server-enforced User and Admin roles.</p>
+    </section>
+    <div class="columns">
+      <section class="card" aria-labelledby="register-title">
+        <h2 id="register-title">Create an account</h2><p>New accounts always have the User role.</p>
+        <form id="register-form">
+          <label for="register-username">Username</label>
+          <input id="register-username" name="username" autocomplete="username" minlength="3" maxlength="32" pattern="[A-Za-z0-9_.-]{3,32}" required>
+          <label for="register-password">Password</label>
+          <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required>
+          <button type="submit">Register</button><p id="register-message" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <section class="card" aria-labelledby="login-title">
+        <h2 id="login-title">Log in</h2><p>Try a User account or an Admin created locally.</p>
+        <form id="login-form">
+          <label for="login-username">Username</label>
+          <input id="login-username" name="username" autocomplete="username" required>
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+          <button type="submit">Log in</button><p id="login-message" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </div>
+    <section class="card test-card" aria-labelledby="demo-title">
+      <h2 id="demo-title">Try an authorization check</h2>
+      <p>While logged out, request <code>GET /api/user</code>. Open Chrome DevTools → Network to inspect HTTP 401.</p>
+      <button id="check-guest" type="button" class="secondary">Check protected endpoint</button>
+      <p id="guest-result" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</body></html>
+

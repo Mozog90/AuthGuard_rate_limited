@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AuthGuard | Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css"><script src="/static/app.js" defer></script>
+</head><body data-page="admin">
+  <header class="site-header"><div class="container header-inner">
+    <a class="brand" href="/">AuthGuard</a>
+    <nav aria-label="Main navigation"><a href="/">Home</a><a href="/dashboard">User Dashboard</a><a href="/admin" aria-current="page">Admin Dashboard</a></nav>
+  </div></header>
+  <main class="container narrow">
+    <section class="intro"><span class="eyebrow">Admin only</span><h1>Admin Dashboard</h1>
+      <p>Both the page and its data endpoint require the Admin role on the server.</p>
+    </section>
+    <section class="card"><h2 id="admin-welcome">Loading admin data...</h2>
+      <div class="metric"><span>Registered accounts</span><strong id="user-count">—</strong></div>
+      <div class="button-row"><a class="button-link secondary" href="/dashboard">User Dashboard</a>
+        <button id="logout" type="button">Log out</button></div>
+      <p id="admin-result" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</body></html>
+
