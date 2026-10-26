@@ -6,11 +6,11 @@ This is the **AUTH-01 remediation copy** of the initial AI-generated application
 
 ## What the application does
 
-| Page or endpoint | Guest | User | Admin |
-| --- | --- | --- | --- |
-| `/` public home | Allowed | Allowed | Allowed |
-| `/dashboard` and `/api/user` | 401 | 200 | 200 |
-| `/admin` and `/api/admin` | 401 | 403 | 200 |
+| Page or endpoint             | Guest   | User    | Admin   |
+| ---------------------------- | ------- | ------- | ------- |
+| `/` public home              | Allowed | Allowed | Allowed |
+| `/dashboard` and `/api/user` | 401     | 200     | 200     |
+| `/admin` and `/api/admin`    | 401     | 403     | 200     |
 
 - Registration creates `user` accounts only. There is no public Admin registration.
 - Admin accounts are created locally with a password prompt.
@@ -137,17 +137,17 @@ This is a local teaching application, **not a production security certification*
 
 The updated application was exercised with FastAPI's HTTP test client and a **temporary SQLite database**. This is a targeted check of the fix, not the full assignment QA pass.
 
-| Check | Observed result |
-| --- | --- |
-| Register test User | 201 |
-| Wrong password, attempts 1–4 | 401 each |
-| Wrong password, attempt 5 | 429; `Retry-After: 30` |
-| Correct password during cooldown | 429 |
-| Correct password after **simulated** cooldown expiry | 200 |
-| User API with valid session | 200 |
-| Admin API while logged in as User | 403 |
-| Admin login and Admin/User pages (separate temporary database) | 200 for all three |
-| Logout | 200; subsequent User API returns 401 |
+| Check                                                          | Observed result                      |
+| -------------------------------------------------------------- | ------------------------------------ |
+| Register test User                                             | 201                                  |
+| Wrong password, attempts 1–4                                   | 401 each                             |
+| Wrong password, attempt 5                                      | 429; `Retry-After: 30`               |
+| Correct password during cooldown                               | 429                                  |
+| Correct password after **simulated** cooldown expiry           | 200                                  |
+| User API with valid session                                    | 200                                  |
+| Admin API while logged in as User                              | 403                                  |
+| Admin login and Admin/User pages (separate temporary database) | 200 for all three                    |
+| Logout                                                         | 200; subsequent User API returns 401 |
 
 The expiration test moved the temporary database's `blocked_until` timestamp into the past; it did **not** wait 30 real seconds. The student also reports manually observing recovery after a real cooldown in Chrome. Demonstrate this again in the video.
 
@@ -167,13 +167,16 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > Keep the project small, organized, and easy to understand. I need to demonstrate its functionality and security in a 5–7 minute video.
 >
 > ### Technology Stack
+>
 > - Python with FastAPI
 > - SQLite database
 > - HTML, CSS, and basic JavaScript
 > - Secure session-based authentication
 >
 > ### Application Requirements
+>
 > **1. Registration and Login**
+>
 > - Users can create accounts and log in.
 > - Passwords must be securely hashed using bcrypt or Argon2.
 > - New accounts automatically receive the User role.
@@ -181,17 +184,20 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > - Users can log out and end their sessions.
 >
 > **2. Two User Roles**
+>
 > - User: Can access the User Dashboard.
 > - Admin: Can access both the User Dashboard and Admin Dashboard.
 > - Provide a simple, secure way to create an Admin account for testing.
 > - Users must not be able to assign themselves the Admin role.
 >
 > **3. Three Pages**
+>
 > - Public Home: Anyone can access.
 > - User Dashboard: Only logged-in users can access.
 > - Admin Dashboard: Only Admin accounts can access.
 >
 > **4. Security**
+>
 > - Enforce role permissions on the backend, not just the frontend.
 > - Return HTTP 401 when someone is not logged in.
 > - Return HTTP 403 when a regular User attempts to access an Admin endpoint.
@@ -206,6 +212,7 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > Create a clean interface with registration, login, dashboards, and logout. Nothing fancy is necessary.
 >
 > ### Development Instructions
+>
 > 1. Generate the complete application.
 > 2. Keep the file structure simple.
 > 3. Explain how to run it locally using VS Code and Windows PowerShell.
@@ -237,38 +244,46 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > ### Security Audit Checklist
 >
 > **1. Password Storage**
+>
 > - Verify that passwords use Argon2id.
 > - Confirm passwords are salted and that verification uses the correct hashing library.
 > - Check whether plaintext passwords could accidentally be stored, logged, or exposed.
 >
 > **2. Server-Side Authorization**
+>
 > - Verify that Admin endpoints enforce authorization on the backend.
 > - Check whether a standard User could bypass restrictions by directly requesting an Admin endpoint.
 > - Verify that role information comes from trusted server-side data.
 >
 > **3. Session Security**
+>
 > - Examine session creation, expiration, and invalidation.
 > - Check cookie security settings.
 > - Verify that logout invalidates the server-side session.
 > - Check for session fixation and CSRF risks.
 >
 > **4. Configuration and Sensitive Data**
+>
 > - Identify hardcoded secrets or credentials.
 > - Check whether sensitive configuration is properly managed.
 > - Examine whether API responses expose passwords, hashes, session tokens, or other private information.
 >
 > **5. Authentication Error Handling**
+>
 > - Verify that invalid usernames and passwords produce generic errors.
 > - Identify potential user enumeration.
 > - Check for missing input validation or unexpected crashes.
 >
 > **6. Database and Input Security**
+>
 > - Look for SQL injection vulnerabilities.
 > - Verify input validation and error handling.
 > - Check whether special characters are handled safely.
 >
 > ### Required Audit Report
+>
 > Provide a table containing:
+>
 > - Finding ID
 > - File and function
 > - Security issue or improvement
@@ -298,6 +313,7 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > Please implement login rate limiting to prevent unlimited password-guessing attempts.
 >
 > Requirements:
+>
 > 1. Limit repeated failed login attempts using a simple approach appropriate for this local application.
 > 2. Return HTTP 429 Too Many Requests when the limit is reached.
 > 3. Allow normal login attempts again after a short cooldown.
@@ -308,6 +324,7 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 > Before making changes, preserve the original implementation so I can document the improvement in my assignment.
 >
 > After implementing the fix:
+>
 > - Show me exactly what changed.
 > - Explain why the original implementation was vulnerable.
 > - Explain how the new rate limiting works.
@@ -325,24 +342,24 @@ The expiration test moved the temporary database's `blocked_until` timestamp int
 
 **Evidence sources:** The **Manual** column records the student's reported observations in Chrome and local SQLite. The **Automated** column records results from `tests/test_security.py`, run independently against temporary databases. Manual browser testing and automated backend tests are different types of evidence; the automated suite does not execute browser JavaScript. No screenshots are claimed.
 
-| Security / QA case | Manual observation (reported by student) | Automated verification |
-| --- | --- | --- |
-| Register a regular User | Passed: registration worked | Passed: 201 response and default `user` role |
-| Log in and establish a session | Passed: User login worked | Passed: 200 login and authenticated User API access |
-| Bad credentials produce generic error | Failed login attempts observed | Passed: existing and unknown usernames both return 401 and `Invalid username or password` |
-| Log out and invalidate session | Passed: protected endpoint returned 401 afterward | Passed: logout removes session; replaying old cookie still returns 401 |
-| Regular User accesses User Dashboard | Passed: HTTP 200 | Passed: User page and API return 200 |
-| Regular User denied Admin access | Passed: Admin API returned HTTP 403 | Passed: Admin page and API return 403 |
-| Admin accesses User and Admin areas | Passed: both dashboards accessible | Passed: Admin accesses both pages and APIs with 200 |
-| Logged-out protected access | Passed: HTTP 401 | Passed: both protected pages and APIs return 401 |
-| Empty username/password submissions | Passed: browser rejected empty forms | Passed: backend registration returns 400; backend login rejects with generic 401; no login session created |
-| SQL-like input and special characters | SQL-like login input rejected in browser | Passed: direct API login attempts return 401; server and users table remain functional |
-| DevTools Network status codes | Passed: 200, 401, 403 and 429 observed in Chrome | Passed: matching status codes in API tests (not Chrome DevTools) |
-| Console and network health | No unhandled JS exceptions during successful login; expected error responses during negative tests | Not applicable: Python API tests do not execute browser JS |
-| Passwords stored as hashes | Passed: inspected SQLite Argon2id hashes | Passed: stored hash begins `$argon2id$` and is not plaintext |
-| Rate limiting repeated failures | Passed: HTTP 429 observed | Passed: first four bad passwords 401, fifth 429 with `Retry-After` |
-| Login after cooldown | Passed: normal login returned after actual cooldown | Passed: correct login after **simulated** cooldown expiry (database timestamp changed) |
-| Registration cannot choose Admin role | Not separately reported | Passed: request supplying `role="admin"` rejected with 422 |
+| Security / QA case                    | Manual observation (reported by student)                                                           | Automated verification                                                                                     |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Register a regular User               | Passed: registration worked                                                                        | Passed: 201 response and default `user` role                                                               |
+| Log in and establish a session        | Passed: User login worked                                                                          | Passed: 200 login and authenticated User API access                                                        |
+| Bad credentials produce generic error | Failed login attempts observed                                                                     | Passed: existing and unknown usernames both return 401 and `Invalid username or password`                  |
+| Log out and invalidate session        | Passed: protected endpoint returned 401 afterward                                                  | Passed: logout removes session; replaying old cookie still returns 401                                     |
+| Regular User accesses User Dashboard  | Passed: HTTP 200                                                                                   | Passed: User page and API return 200                                                                       |
+| Regular User denied Admin access      | Passed: Admin API returned HTTP 403                                                                | Passed: Admin page and API return 403                                                                      |
+| Admin accesses User and Admin areas   | Passed: both dashboards accessible                                                                 | Passed: Admin accesses both pages and APIs with 200                                                        |
+| Logged-out protected access           | Passed: HTTP 401                                                                                   | Passed: both protected pages and APIs return 401                                                           |
+| Empty username/password submissions   | Passed: browser rejected empty forms                                                               | Passed: backend registration returns 400; backend login rejects with generic 401; no login session created |
+| SQL-like input and special characters | SQL-like login input rejected in browser                                                           | Passed: direct API login attempts return 401; server and users table remain functional                     |
+| DevTools Network status codes         | Passed: 200, 401, 403 and 429 observed in Chrome                                                   | Passed: matching status codes in API tests (not Chrome DevTools)                                           |
+| Console and network health            | No unhandled JS exceptions during successful login; expected error responses during negative tests | Not applicable: Python API tests do not execute browser JS                                                 |
+| Passwords stored as hashes            | Passed: inspected SQLite Argon2id hashes                                                           | Passed: stored hash begins `$argon2id$` and is not plaintext                                               |
+| Rate limiting repeated failures       | Passed: HTTP 429 observed                                                                          | Passed: first four bad passwords 401, fifth 429 with `Retry-After`                                         |
+| Login after cooldown                  | Passed: normal login returned after actual cooldown                                                | Passed: correct login after **simulated** cooldown expiry (database timestamp changed)                     |
+| Registration cannot choose Admin role | Not separately reported                                                                            | Passed: request supplying `role="admin"` rejected with 422                                                 |
 
 **Backend validation detail:** Registration explicitly validates empty fields and returns 400. Login does not have a separate required-length validator for nonempty strings; instead, empty credentials fail authentication with generic 401 and do not create a session. This meets the negative rejection check without claiming the two endpoints implement identical validation.
 
@@ -371,6 +388,7 @@ In PowerShell, from the **AuthGuard_rate_limited** project folder, install the t
 > Now let's complete the formal QA portion of my AuthGuard assignment.
 >
 > I've manually tested the application in Chrome and verified:
+>
 > - Registration and login work for a regular User.
 > - The User Dashboard returns HTTP 200.
 > - A regular User attempting the Admin API receives HTTP 403.
@@ -386,6 +404,7 @@ In PowerShell, from the **AuthGuard_rate_limited** project folder, install the t
 > I now need to verify the remaining backend security requirements and finish the QA documentation.
 >
 > Please:
+>
 > 1. Create a small, focused automated test suite using pytest and FastAPI's testing tools.
 > 2. Test backend validation for empty usernames and passwords.
 > 3. Test that SQL-like input cannot bypass authentication or crash the server.
@@ -404,4 +423,3 @@ In PowerShell, from the **AuthGuard_rate_limited** project folder, install the t
 > Show me the final QA summary and any remaining assignment requirements.
 
 </details>
-
